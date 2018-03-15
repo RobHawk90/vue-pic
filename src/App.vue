@@ -1,8 +1,9 @@
 <template>
   <div class="corpo">
     <h1 class="titulo-centralizado">{{titulo}}</h1>
+    <input class="filtro" @input="filtro = $event.target.value" placeholder="Digite o nome da foto que deseja filtrar">
     <ul class="fotos">
-      <li class="foto" :key="foto.titulo" v-for="foto of fotos">
+      <li class="foto" :key="foto.titulo" v-for="foto of fotosFiltradas">
         <meu-painel :titulo="foto.titulo">
           <img class="responsiva" :src="foto.url" :alt="foto.titulo">
         </meu-painel>
@@ -21,8 +22,17 @@ export default {
   data() {
     return {
       titulo: "Vue Pic",
-      fotos: []
+      fotos: [],
+      filtro: ""
     };
+  },
+  computed: {
+    fotosFiltradas() {
+      if (this.filtro) {
+        let regex = new RegExp(this.filtro.trim(), "i"); // compare removendo espacos e case insensitive
+        return this.fotos.filter(foto => regex.test(foto.titulo));
+      } else return this.fotos;
+    }
   },
   created() {
     this.$http
@@ -54,5 +64,16 @@ li.foto {
 
 img.responsiva {
   width: 100%;
+}
+
+input.filtro {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  transition: 250ms;
+}
+
+input.filtro:focus {
+  border-color: #48f;
 }
 </style>

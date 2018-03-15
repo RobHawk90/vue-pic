@@ -1,13 +1,22 @@
 <template>
   <div class="painel">
-    <div class="painel-titulo">{{titulo}}</div>
-    <slot class="painel-corpo"></slot>
+    <div class="painel-titulo" @click="mostrarCorpo = !mostrarCorpo">{{titulo}}</div>
+    <transition name="painel-fade">
+      <div class="painel-corpo" v-show="mostrarCorpo">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["titulo"]
+  props: ["titulo"],
+  data() {
+    return {
+      mostrarCorpo: true
+    };
+  }
 };
 </script>
 
@@ -35,5 +44,15 @@ export default {
 
 * {
   box-shadow: 5px 5px 5px black;
+}
+
+.painel-fade-enter,
+.painel-fade-leave-active {
+  opacity: 0;
+}
+
+.painel-fade-enter-active,
+.painel-fade-leave-active {
+  transition: 300ms;
 }
 </style>
