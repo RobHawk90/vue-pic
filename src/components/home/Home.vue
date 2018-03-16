@@ -4,9 +4,10 @@
     <input class="filtro" @input="filtro = $event.target.value" placeholder="Digite o nome da foto que deseja filtrar">
     <ul class="fotos">
       <li class="foto" :key="foto.titulo" v-for="foto of fotosFiltradas">
-        <meu-painel :titulo="foto.titulo">
-          <img class="responsiva" :src="foto.url" :alt="foto.titulo">
-        </meu-painel>
+        <painel :titulo="foto.titulo">
+          <imagem :url="foto.url" :titulo="foto.titulo"></imagem>
+          <botao label="Remover"></botao>
+        </painel>
       </li>
     </ul>
   </div>
@@ -14,10 +15,14 @@
 
 <script>
 import Painel from "../shared/painel/Painel.vue";
+import Botao from "../shared/botao/Botao.vue";
+import Imagem from "../shared/imagem/Imagem.vue";
 
 export default {
   components: {
-    "meu-painel": Painel
+    painel: Painel,
+    botao: Botao,
+    imagem: Imagem
   },
   data() {
     return {
@@ -43,7 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1.titulo {
   text-align: center;
 }
@@ -54,10 +59,6 @@ ul.fotos {
 
 li.foto {
   display: inline-block;
-}
-
-img.responsiva {
-  width: 100%;
 }
 
 input.filtro {
