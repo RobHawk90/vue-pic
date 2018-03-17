@@ -5,7 +5,7 @@
     <ul class="fotos">
       <li class="foto" :key="foto.titulo" v-for="foto of fotosFiltradas">
         <painel :titulo="foto.titulo">
-          <imagem :url="foto.url" :titulo="foto.titulo"></imagem>
+          <imagem :url="foto.url" :titulo="foto.titulo" v-transform:rotate.animar="90"></imagem>
           <botao label="Remover" @confirma="remove(foto)" estilo="perigo" :confirmar="true"></botao>
         </painel>
       </li>
@@ -18,11 +18,16 @@ import Painel from "../shared/painel/Painel.vue";
 import Botao from "../shared/botao/Botao.vue";
 import Imagem from "../shared/imagem/Imagem.vue";
 
+import transform from "../../directives/Transform";
+
 export default {
   components: {
     painel: Painel,
     botao: Botao,
     imagem: Imagem
+  },
+  directives: {
+    transform
   },
   data() {
     return {

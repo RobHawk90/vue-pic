@@ -42,6 +42,10 @@ export default {
   text-transform: uppercase;
 }
 
+.painel .painel-corpo {
+  overflow: hidden;
+}
+
 * {
   box-shadow: 5px 5px 5px black;
 }
