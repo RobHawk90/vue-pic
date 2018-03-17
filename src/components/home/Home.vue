@@ -6,7 +6,7 @@
       <li class="foto" :key="foto.titulo" v-for="foto of fotosFiltradas">
         <painel :titulo="foto.titulo">
           <imagem :url="foto.url" :titulo="foto.titulo"></imagem>
-          <botao label="Remover"></botao>
+          <botao label="Remover" @confirma="remove(foto)" estilo="perigo" :confirmar="true"></botao>
         </painel>
       </li>
     </ul>
@@ -37,6 +37,11 @@ export default {
         let regex = new RegExp(this.filtro.trim(), "i"); // compare removendo espacos e case insensitive
         return this.fotos.filter(foto => regex.test(foto.titulo));
       } else return this.fotos;
+    }
+  },
+  methods: {
+    remove(foto) {
+      alert(`Removendo ${foto.titulo}...`);
     }
   },
   created() {

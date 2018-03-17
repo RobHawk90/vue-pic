@@ -1,10 +1,29 @@
 <template>
-  <button class="botao botao-perigo">{{label}}</button>
+  <button class="botao" :class="estiloSelecionado" @click="confirmacao()">{{label}}</button>
 </template>
 
 <script>
 export default {
-  props: ["label"]
+  props: {
+    label: {
+      required: true,
+      type: String
+    },
+    estilo: String,
+    confirmar: Boolean
+  },
+  computed: {
+    estiloSelecionado() {
+      if (this.estilo === "perigo") return "botao-perigo";
+      return "botao-padrao";
+    }
+  },
+  methods: {
+    confirmacao() {
+      if (!this.confirmar) return this.$emit("confirma");
+      if (confirm("Confirmar operação?")) this.$emit("confirma");
+    }
+  }
 };
 </script>
 
