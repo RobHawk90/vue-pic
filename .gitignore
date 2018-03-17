@@ -12,6 +12,6 @@ yarn-error.log
 *.sln
 
 # Log files
-*.log
+*.log*
 
-api/data.db
+data.db
