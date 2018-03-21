@@ -22,7 +22,7 @@
 
       <div class="centralizado">
         <botao label="GRAVAR"/>
-        <router-link to="/"><botao label="VOLTAR"/></router-link>
+        <router-link :to="{name: 'home'}"><botao label="VOLTAR"/></router-link>
       </div>
     </form>
   </div>
