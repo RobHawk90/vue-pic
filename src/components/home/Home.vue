@@ -20,6 +20,8 @@ import Imagem from "../shared/imagem/Imagem.vue";
 
 import transform from "../../directives/Transform";
 
+import FotoService from "../../domain/fotos/FotoService";
+
 export default {
   components: {
     painel: Painel,
@@ -46,14 +48,15 @@ export default {
   },
   methods: {
     remove(foto) {
-      alert(`Removendo ${foto.titulo}...`);
+      this.service.remove(foto._id).then(() => {
+        let index = this.fotos.indexOf(foto);
+        this.fotos.splice(index, 1);
+      });
     }
   },
   created() {
-    this.$http
-      .get("http://localhost:3000/v1/fotos")
-      .then(res => res.json())
-      .then(fotos => (this.fotos = fotos));
+    this.service = new FotoService(this.$resource);
+    this.service.lista().then(fotos => (this.fotos = fotos));
   }
 };
 </script>

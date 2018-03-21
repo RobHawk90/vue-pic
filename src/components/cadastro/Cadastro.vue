@@ -33,6 +33,7 @@ import Imagem from "../shared/imagem/Imagem.vue";
 import Botao from "../shared/botao/Botao.vue";
 
 import Foto from "../../domain/fotos/Foto";
+import FotoService from "../../domain/fotos/FotoService";
 
 export default {
   components: {
@@ -47,9 +48,12 @@ export default {
   methods: {
     grava() {
       this.$http
-        .post("http://localhost:3000/v1/fotos", this.foto)
+        .post("v1/fotos", this.foto)
         .then(() => (this.foto = new Foto()), err => console.log(err));
     }
+  },
+  created() {
+    this.service = new FotoService(this.$resource);
   }
 };
 </script>

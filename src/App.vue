@@ -1,9 +1,11 @@
 <template>
   <div class="corpo">
     <meu-menu :rotas="routes"></meu-menu>
-    <transition name="pagina">
-      <router-view></router-view>
-    </transition>
+    <div class="conteudo">
+      <transition name="pagina">
+        <router-view></router-view>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -13,7 +15,7 @@ import { routes } from "./routes";
 
 export default {
   components: {
-    'meu-menu': Menu
+    "meu-menu": Menu
   },
   data() {
     return { routes };
@@ -21,11 +23,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 div.corpo {
   font-family: Helvetica, sans-serif;
   margin: 0 auto;
   width: 96%;
+}
+
+.conteudo {
+  margin-top: 50px;
 }
 
 .pagina-enter,
