@@ -1,9 +1,11 @@
 <template>
   <div>
     <h1 class="centralizado">Cadastro</h1>
+    <h2 v-if="foto._id" class="centralizado">Atualização</h2>
+    <h2 v-else class="centralizado">Gravação</h2>
     <h2 class="centralizado">{{foto.titulo}}</h2>
 
-    <form @submit.prevent="grava()">
+    <form @submit.prevent="salva()">
       <div class="controle">
         <label for="titulo">TÍTULO</label>
         <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo">
@@ -21,7 +23,7 @@
       </div>
 
       <div class="centralizado">
-        <botao label="GRAVAR"/>
+        <botao label="SALVAR"/>
         <router-link :to="{name: 'home'}"><botao label="VOLTAR"/></router-link>
       </div>
     </form>
@@ -46,14 +48,17 @@ export default {
     };
   },
   methods: {
-    grava() {
-      this.$http
-        .post("v1/fotos", this.foto)
-        .then(() => (this.foto = new Foto()), err => console.log(err));
+    salva() {
+      this.service.salva(this.foto).then(() => {
+        if (this.foto._id) this.$router.push({ name: "home" });
+        this.foto = new Foto();
+      });
     }
   },
   created() {
     this.service = new FotoService(this.$resource);
+    let id = this.$route.params.id;
+    if (id) this.service.busca(id).then(foto => (this.foto = foto));
   }
 };
 </script>

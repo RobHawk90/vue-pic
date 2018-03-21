@@ -1,12 +1,14 @@
 <template>
   <div>
     <h1 class="titulo">{{titulo}}</h1>
+    <h2 v-show="mensagem">{{mensagem}}</h2>
     <input class="filtro" @input="filtro = $event.target.value" placeholder="Digite o nome da foto que deseja filtrar">
     <ul class="fotos">
       <li class="foto" :key="foto.titulo" v-for="foto of fotosFiltradas">
         <painel :titulo="foto.titulo">
           <imagem :url="foto.url" :titulo="foto.titulo" v-transform:rotate.animar="90"></imagem>
-          <botao label="Remover" @confirma="remove(foto)" estilo="perigo" :confirmar="true"></botao>
+          <router-link :to="{name: 'cadastro', params: {id: foto._id}}"><botao label="Alterar"/></router-link>
+          <botao label="Remover" @confirma="remove(foto)" estilo="perigo" :confirmar="true"/>
         </painel>
       </li>
     </ul>
@@ -35,7 +37,8 @@ export default {
     return {
       titulo: "Vue Pic",
       fotos: [],
-      filtro: ""
+      filtro: "",
+      mensagem: ""
     };
   },
   computed: {
@@ -56,7 +59,12 @@ export default {
   },
   created() {
     this.service = new FotoService(this.$resource);
-    this.service.lista().then(fotos => (this.fotos = fotos));
+    this.service
+      .lista()
+      .then(
+        fotos => (this.fotos = fotos),
+        err => (this.mensagem = err.message)
+      );
   }
 };
 </script>

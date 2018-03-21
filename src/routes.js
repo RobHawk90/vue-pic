@@ -10,6 +10,12 @@ export const routes = [
     menu: true
   },
   {
+    path: "/cadastro/:id",
+    name: "cadastro",
+    title: "Cadastro",
+    component: Cadastro
+  },
+  {
     path: "/cadastro",
     name: "cadastro",
     title: "Cadastro",
