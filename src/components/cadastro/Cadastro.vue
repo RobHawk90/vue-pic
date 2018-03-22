@@ -7,13 +7,19 @@
 
     <form @submit.prevent="salva()">
       <div class="controle">
-        <label for="titulo">TÍTULO</label>
-        <input id="titulo" autocomplete="off" v-model.lazy="foto.titulo">
+        <label>TÍTULO</label>
+        <input name="titulo" autocomplete="off"
+          v-validate data-vv-rules="required|min:3|max:30" data-vv-as="TÍTULO"
+          v-model.lazy="foto.titulo">
+        <span class="erro" v-show="errors.has('titulo')">{{errors.first('titulo')}}</span>
       </div>
 
       <div class="controle">
-        <label for="url">URL</label>
-        <input id="url" autocomplete="off" v-model.lazy="foto.url">
+        <label>URL</label>
+        <input name="url" autocomplete="off"
+          v-validate data-vv-rules="required" data-vv-as="URL"
+          v-model.lazy="foto.url">
+        <span class="erro" v-show="errors.has('url')">{{errors.first('url')}}</span>
         <imagem v-show="foto.url" :url="foto.url" :titulo="foto.titulo" />
       </div>
 
@@ -49,10 +55,18 @@ export default {
   },
   methods: {
     salva() {
-      this.service.salva(this.foto).then(() => {
-        if (this.foto._id) this.$router.push({ name: "home" });
-        this.foto = new Foto();
-      });
+      this.$validator
+        .validateAll()
+        .then(
+          success => {
+            if (success) return this.service.salva(this.foto);
+          },
+          err => console.log(err)
+        )
+        .then(() => {
+          if (this.foto._id) this.$router.push({ name: "home" });
+          this.foto = new Foto();
+        });
     }
   },
   created() {
@@ -84,5 +98,9 @@ export default {
 
 .centralizado {
   text-align: center;
+}
+
+.erro {
+  color: red;
 }
 </style>
