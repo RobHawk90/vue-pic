@@ -6,6 +6,7 @@ export const routes = [
     path: "/",
     name: "home",
     title: "Home",
+    icon: "home",
     component: Home,
     menu: true
   },
@@ -19,6 +20,7 @@ export const routes = [
     path: "/cadastro",
     name: "cadastro",
     title: "Cadastro",
+    icon: "image",
     component: Cadastro,
     menu: true
   },

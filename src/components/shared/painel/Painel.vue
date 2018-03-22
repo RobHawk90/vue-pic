@@ -1,17 +1,29 @@
 <template>
-  <div class="painel">
-    <div class="painel-titulo" @click="mostrarCorpo = !mostrarCorpo">{{titulo}}</div>
+  <md-card class="painel" md-with-hover>
+    <md-card-header>
+      <md-card-header-text>
+        <div @click="mostrarCorpo = !mostrarCorpo">
+          <div class="md-title">{{titulo}}</div>
+          <div class="md-subhead" v-if="subtitulo">{{subtitulo}}</div>
+        </div>
+      </md-card-header-text>
+    </md-card-header>
     <transition name="painel-fade">
       <div class="painel-corpo" v-show="mostrarCorpo">
-        <slot></slot>
+        <md-card-media>
+          <slot></slot>
+        </md-card-media>
+        <md-card-actions>
+          <slot name="rodape"></slot>
+        </md-card-actions>
       </div>
     </transition>
-  </div>
+  </md-card>
 </template>
 
 <script>
 export default {
-  props: ["titulo"],
+  props: ["titulo", "subtitulo"],
   data() {
     return {
       mostrarCorpo: true
@@ -21,35 +33,6 @@ export default {
 </script>
 
 <style scoped>
-.painel {
-  padding: 0 auto;
-  border: solid 2px grey;
-  display: inline-block;
-  margin: 5px;
-  box-shadow: 5px 5px 10px grey;
-  width: 200px;
-  height: 100%;
-  vertical-align: top;
-  text-align: center;
-}
-
-.painel .painel-titulo {
-  text-align: center;
-  border: solid 2px;
-  background: lightblue;
-  margin: 0 0 15px 0;
-  padding: 10px;
-  text-transform: uppercase;
-}
-
-.painel .painel-corpo {
-  overflow: hidden;
-}
-
-* {
-  box-shadow: 5px 5px 5px black;
-}
-
 .painel-fade-enter,
 .painel-fade-leave-active {
   opacity: 0;

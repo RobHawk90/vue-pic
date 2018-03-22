@@ -1,21 +1,22 @@
 <template>
-  <button class="botao" :class="estiloSelecionado" @click="confirmacao()">{{label}}</button>
+  <md-button :class="[{'md-accent': perigo}, shape]" :md-ripple="true" @click="confirmacao()">
+    <md-icon v-if="icon">{{icon}}</md-icon>
+    {{label}}
+  </md-button>
 </template>
 
 <script>
 export default {
   props: {
-    label: {
-      required: true,
-      type: String
-    },
-    estilo: String,
+    label:String,
+    icon: String,
+    perigo: Boolean,
     confirmar: Boolean
   },
   computed: {
-    estiloSelecionado() {
-      if (this.estilo === "perigo") return "botao-perigo";
-      return "botao-padrao";
+    shape() {
+      if (this.label) return "md-raised";
+      return "md-icon-button";
     }
   },
   methods: {
@@ -28,21 +29,5 @@ export default {
 </script>
 
 <style scoped>
-.botao {
-  display: inline-block;
-  padding: 10px;
-  border-radius: 3px;
-  margin: 10px;
-  font-size: 1.2em;
-}
 
-.botao-perigo {
-  background: firebrick;
-  color: white;
-}
-
-.botao-padrao {
-  background: darkcyan;
-  color: white;
-}
 </style>
