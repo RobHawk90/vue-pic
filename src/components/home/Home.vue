@@ -6,8 +6,8 @@
       <label>Digite o nome da foto que deseja filtrar</label>
       <md-input v-model="filtro"/>
     </md-field>
-    <ul class="fotos md-layout md-gutter md-alignment-center">
-      <li class="foto md-layout-item md-xlarge-size-25 md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100"
+    <transition-group name="fotos" tag="ul" class="md-layout md-gutter">
+      <li class="foto md-layout-item md-xlarge-size-20 md-large-size-25 md-medium-size-33 md-small-size-50 md-xsmall-size-100"
         :key="foto.titulo" v-for="foto of fotosFiltradas"
       >
         <painel :titulo="foto.titulo" :subtitulo="foto.descricao">
@@ -18,7 +18,7 @@
           </div>
         </painel>
       </li>
-    </ul>
+    </transition-group>
     <toast :mensagem="mensagem" :exibir="exibirMensagem"/>
   </div>
 </template>
@@ -96,5 +96,14 @@ ul.fotos {
 li.foto {
   display: inline-block;
   margin-bottom: 10px;
+}
+
+.fotos-enter,
+.fotos-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.fotos-leave-active {
+  position: absolute;
 }
 </style>
