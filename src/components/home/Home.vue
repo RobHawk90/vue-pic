@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1 class="titulo">Lista de Fotos</h1>
-    <h2 v-show="mensagem">{{mensagem}}</h2>
     <md-field>
       <md-icon>search</md-icon>
       <label>Digite o nome da foto que deseja filtrar</label>
@@ -20,6 +19,7 @@
         </painel>
       </li>
     </ul>
+    <toast :mensagem="mensagem" :exibir="exibirMensagem"/>
   </div>
 </template>
 
@@ -27,6 +27,7 @@
 import Painel from "../shared/painel/Painel.vue";
 import Botao from "../shared/botao/Botao.vue";
 import Imagem from "../shared/imagem/Imagem.vue";
+import Toast from "../shared/toast/Toast.vue";
 
 import transform from "../../directives/Transform";
 
@@ -36,7 +37,8 @@ export default {
   components: {
     painel: Painel,
     botao: Botao,
-    imagem: Imagem
+    imagem: Imagem,
+    toast: Toast
   },
   directives: {
     transform
@@ -45,7 +47,8 @@ export default {
     return {
       fotos: [],
       filtro: "",
-      mensagem: ""
+      mensagem: "",
+      exibirMensagem: false
     };
   },
   computed: {
@@ -61,7 +64,12 @@ export default {
       this.service.remove(foto._id).then(() => {
         let index = this.fotos.indexOf(foto);
         this.fotos.splice(index, 1);
+        this.exibeMensagem(`A foto "${foto.titulo}" foi removida`);
       });
+    },
+    exibeMensagem(mensagem) {
+      this.mensagem = mensagem;
+      this.exibirMensagem = true;
     }
   },
   created() {

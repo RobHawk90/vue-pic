@@ -1,17 +1,31 @@
 <template>
-  <md-button :class="[{'md-accent': perigo}, shape]" :md-ripple="true" @click="confirmacao()">
-    <md-icon v-if="icon">{{icon}}</md-icon>
-    {{label}}
-  </md-button>
+  <div>
+    <md-button :class="[{'md-accent': perigo}, shape]" :md-ripple="true" @click="confirmacao()">
+      <md-icon v-if="icon">{{icon}}</md-icon>
+      {{label}}
+    </md-button>
+
+    <md-dialog-confirm 
+      md-title="Confirmar operação?"
+      md-content="Esta operação pode ser irreverssível"
+      md-confirm-text="Confirmar"
+      md-cancel-text="Cancelar"
+      :md-active.sync="active"
+      @md-cancel="onCancel"
+      @md-confirm="onConfirm"/>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
-    label:String,
+    label: String,
     icon: String,
     perigo: Boolean,
     confirmar: Boolean
+  },
+  data() {
+    return { active: false };
   },
   computed: {
     shape() {
@@ -22,12 +36,20 @@ export default {
   methods: {
     confirmacao() {
       if (!this.confirmar) return this.$emit("confirma");
-      if (confirm("Confirmar operação?")) this.$emit("confirma");
+      this.active = true;
+    },
+    onCancel() {
+      this.$emit("cancela");
+    },
+    onConfirm() {
+      this.$emit("confirma");
     }
   }
 };
 </script>
 
 <style scoped>
-
+div {
+  display: inline-block;
+}
 </style>

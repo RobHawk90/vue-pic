@@ -4,7 +4,6 @@
     <h2 v-if="foto._id" class="centralizado">Atualização</h2>
     <h2 v-else class="centralizado">Gravação</h2>
     <h2 class="centralizado">{{foto.titulo}}</h2>
-
     <div class="md-layout md-gutter md-alignment-center">
       <md-card class="md-layout-item md-xlarge-size-40 md-large-size-40 md-medium-size-45 md-small-size-50 md-xsmall-size-100">
         <md-card-header>
@@ -51,12 +50,14 @@
       </md-card>
       </div>
     </div>
+    <toast :mensagem="mensagem" :exibir="exibirMensagem"/>
   </div>
 </template>
 
 <script>
 import Imagem from "../shared/imagem/Imagem.vue";
 import Botao from "../shared/botao/Botao.vue";
+import Toast from "../shared/toast/Toast.vue";
 
 import Foto from "../../domain/fotos/Foto";
 import FotoService from "../../domain/fotos/FotoService";
@@ -64,11 +65,14 @@ import FotoService from "../../domain/fotos/FotoService";
 export default {
   components: {
     imagem: Imagem,
-    botao: Botao
+    botao: Botao,
+    toast: Toast
   },
   data() {
     return {
-      foto: new Foto()
+      foto: new Foto(),
+      mensagem: "",
+      exibirMensagem: false
     };
   },
   methods: {
@@ -82,9 +86,14 @@ export default {
           err => console.log(err)
         )
         .then(() => {
+          this.exibeMensagem(`A foto "${this.foto.titulo}" foi salva`);
           if (this.foto._id) this.$router.push({ name: "home" });
           this.foto = new Foto();
         });
+    },
+    exibeMensagem(mensagem) {
+      this.mensagem = mensagem;
+      this.exibirMensagem = true;
     },
     hasError(field) {
       return {
