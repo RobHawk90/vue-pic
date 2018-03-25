@@ -24,5 +24,5 @@ export const routes = [
     component: Cadastro,
     menu: true
   },
-  { path: "*", component: Home }
+  { path: "*", redirect: "/" }
 ];

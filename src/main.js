@@ -4,8 +4,8 @@ import VueRouter from "vue-router";
 import VueMaterial from "vue-material";
 import VeeValidate from "vee-validate";
 
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
+import "vue-material/dist/vue-material.min.css";
+import "vue-material/dist/theme/default.css";
 import ptBR from "vee-validate/dist/locale/pt_BR";
 
 import App from "./App.vue";
@@ -23,6 +23,10 @@ Vue.use(VeeValidate, {
   }
 });
 Vue.http.options.root = "http://localhost:3000";
+Vue.http.interceptors.push((req, next) => {
+  console.info(`request ${req.method} to ${req.url}`);
+  next(res => console.info(`response ${res.status} from ${res.url}`));
+});
 
 const router = new VueRouter({
   routes,

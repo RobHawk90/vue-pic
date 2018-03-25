@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-button :class="[{'md-accent': perigo}, shape]" :md-ripple="true" @click="confirmacao()">
+    <md-button :class="[color, shape]" :md-ripple="true" @click="confirmacao()">
       <md-icon v-if="icon">{{icon}}</md-icon>
       {{label}}
     </md-button>
@@ -28,6 +28,10 @@ export default {
     return { active: false };
   },
   computed: {
+    color() {
+      if (this.perigo) return "md-accent";
+      return "md-primary";
+    },
     shape() {
       if (this.label) return "md-raised";
       return "md-icon-button";
